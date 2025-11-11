@@ -1,5 +1,5 @@
 # ---------------------------------------------------
-# 🪙 CRYPTOCURRENCY PRICE TRACKER (FINAL VERSION)
+# CRYPTOCURRENCY PRICE TRACKER (FINAL VERSION)
 # ---------------------------------------------------
 # Developed using Python, Selenium, and Pandas
 # ---------------------------------------------------
@@ -76,17 +76,17 @@ try:
     )
     time.sleep(5)  # extra wait for JS rendering
 except Exception as e:
-    print("❌ Could not load table:", e)
+    print("Could not load table:", e)
     driver.quit()
     exit()
 
 # ---------------------------------------------------
 # Extract Data
 # ---------------------------------------------------
-print("🔍 Extracting cryptocurrency data...")
+print(" Extracting cryptocurrency data...")
 
 rows = driver.find_elements(By.CSS_SELECTOR, "tbody tr")
-print(f"✅ Found {len(rows)} rows on the page")
+print(f" Found {len(rows)} rows on the page")
 
 data = []
 for row in rows[:TOP_N]:
@@ -110,7 +110,7 @@ for row in rows[:TOP_N]:
                     "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 })
     except Exception as e:
-        print("⚠️ Error reading row:", e)
+        print(" Error reading row:", e)
         continue
 
 # ---------------------------------------------------
@@ -120,11 +120,11 @@ df = pd.DataFrame(data)
 
 if not df.empty:
     print("\n===============================")
-    print("🏆 TOP 10 CRYPTOCURRENCIES")
+    print(" TOP 10 CRYPTOCURRENCIES")
     print("===============================\n")
     print(df.to_string(index=False))
 else:
-    print("⚠️ No data extracted — please retry or refresh the page.")
+    print(" No data extracted — please retry or refresh the page.")
 
 # ---------------------------------------------------
 # Save Data to CSV
@@ -132,15 +132,15 @@ else:
 if not df.empty:
     file_exists = os.path.exists(CSV_FILE)
     df.to_csv(CSV_FILE, mode='a', index=False, header=not file_exists)
-    print(f"\n💾 Data saved successfully to {CSV_FILE}")
+    print(f"\n Data saved successfully to {CSV_FILE}")
 else:
-    print("⚠️ No data extracted — please retry or refresh the page.")
+    print(" No data extracted — please retry or refresh the page.")
 
 # ---------------------------------------------------
 # Automatically Open CSV File (Optional)
 # ---------------------------------------------------
 if os.path.exists(CSV_FILE):
-    print("📂 Opening CSV file...")
+    print(" Opening CSV file...")
     webbrowser.open(CSV_FILE)
 
 # ---------------------------------------------------
