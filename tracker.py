@@ -1,8 +1,5 @@
-# ---------------------------------------------------
 # CRYPTOCURRENCY PRICE TRACKER (FINAL VERSION)
-# ---------------------------------------------------
 # Developed using Python, Selenium, and Pandas
-# ---------------------------------------------------
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -18,21 +15,15 @@ import os
 import webbrowser
 import sys
 
-# ---------------------------------------------------
 # System Encoding Fix (prevents Unicode errors)
-# ---------------------------------------------------
 sys.stdout.reconfigure(encoding='utf-8')
 
-# ---------------------------------------------------
 # Configuration
-# ---------------------------------------------------
 URL = "https://coinmarketcap.com/"
 CSV_FILE = "crypto_prices.csv"
 TOP_N = 10  # Number of top cryptocurrencies to extract
 
-# ---------------------------------------------------
 # Chrome Options Setup
-# ---------------------------------------------------
 options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
 options.add_argument("--disable-blink-features=AutomationControlled")
@@ -47,9 +38,7 @@ HEADLESS = False
 if HEADLESS:
     options.add_argument("--headless=new")
 
-# ---------------------------------------------------
 # Launch Browser
-# ---------------------------------------------------
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 # Enable Stealth Mode
@@ -63,9 +52,7 @@ stealth(
     fix_hairline=True,
 )
 
-# ---------------------------------------------------
 # Load Website
-# ---------------------------------------------------
 print("Loading CoinMarketCap homepage...")
 driver.get(URL)
 
@@ -80,9 +67,7 @@ except Exception as e:
     driver.quit()
     exit()
 
-# ---------------------------------------------------
 # Extract Data
-# ---------------------------------------------------
 print(" Extracting cryptocurrency data...")
 
 rows = driver.find_elements(By.CSS_SELECTOR, "tbody tr")
@@ -113,9 +98,7 @@ for row in rows[:TOP_N]:
         print(" Error reading row:", e)
         continue
 
-# ---------------------------------------------------
 # Convert to DataFrame and Display
-# ---------------------------------------------------
 df = pd.DataFrame(data)
 
 if not df.empty:
@@ -126,9 +109,7 @@ if not df.empty:
 else:
     print(" No data extracted — please retry or refresh the page.")
 
-# ---------------------------------------------------
 # Save Data to CSV
-# ---------------------------------------------------
 if not df.empty:
     file_exists = os.path.exists(CSV_FILE)
     df.to_csv(CSV_FILE, mode='a', index=False, header=not file_exists)
@@ -136,16 +117,12 @@ if not df.empty:
 else:
     print(" No data extracted — please retry or refresh the page.")
 
-# ---------------------------------------------------
 # Automatically Open CSV File (Optional)
-# ---------------------------------------------------
 if os.path.exists(CSV_FILE):
     print(" Opening CSV file...")
     webbrowser.open(CSV_FILE)
 
-# ---------------------------------------------------
 # Close Browser
-# ---------------------------------------------------
 time.sleep(5)  # Keep browser open for viewing
 driver.quit()
-print("✅ Browser closed. Script finished successfully.")
+print(" Browser closed. Script finished successfully.")
